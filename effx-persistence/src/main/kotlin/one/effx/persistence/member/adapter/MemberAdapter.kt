@@ -9,11 +9,10 @@ import org.springframework.stereotype.Repository
 @Repository
 class MemberAdapter(
     private val memberCrudRepository: MemberCrudRepository
-): MemberRepository {
+) : MemberRepository {
     override suspend fun findByEmail(email: String) = memberCrudRepository
         .findByEmail(email)
         ?.let { MemberEntity.toDomain(it) }
-
 
     override suspend fun save(aggregate: Member): Member =
         memberCrudRepository.findById(aggregate.id)?.let { entity ->
@@ -30,4 +29,9 @@ class MemberAdapter(
     override suspend fun findById(id: Long): Member =
         memberCrudRepository.findById(id)?.let { MemberEntity.toDomain(it) }
             ?: throw IllegalArgumentException("Member with id $id not found")
+
+
+    override suspend fun existsByEmail(email: String): Boolean {
+        return memberCrudRepository.existsByEmail(email)
+    }
 }

@@ -5,5 +5,5 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface MemberCrudRepository: CoroutineCrudRepository<MemberEntity, Long> {
     suspend fun findByEmail(email: String): MemberEntity?
-
+    suspend fun existsByEmail(email: String): Boolean
 }

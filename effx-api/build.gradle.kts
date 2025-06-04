@@ -3,6 +3,12 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":effx-domain"))
+    implementation(project(":effx-application"))
+    implementation(project(":effx-common"))
+    implementation(project(":effx-security"))
+    implementation(project(":effx-persistence"))
+
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("org.springframework.boot:spring-boot-starter-actuator")

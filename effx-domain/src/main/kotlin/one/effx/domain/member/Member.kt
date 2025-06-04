@@ -12,8 +12,10 @@ data class Member(
     override val id: Long,
     val name: String,
     val email: String,
+    @JsonIgnore
     val passwordHash: String,
     val role: MemberRole = MemberRole.ROLE_USER,
+    @JsonIgnore
     val isActive: Boolean = true,
     @JsonIgnore
     val deletedAt: LocalDateTime? = null

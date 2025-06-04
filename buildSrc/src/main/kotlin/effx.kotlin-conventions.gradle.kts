@@ -12,10 +12,6 @@ plugins {
     kotlin("plugin.noarg")
 }
 
-noArg {
-    annotation("com.oasis.common.projections.NoArgs")
-}
-
 tasks.withType<JavaCompile> {
     sourceCompatibility = "21"
     targetCompatibility = "21"

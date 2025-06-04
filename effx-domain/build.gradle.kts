@@ -4,5 +4,6 @@ plugins {
 }
 
 dependencies {
+    api(project(":effx-common"))
     implementation("org.springframework.data:spring-data-commons")
 }

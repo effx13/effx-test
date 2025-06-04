@@ -20,6 +20,14 @@ class AuthException(
             )
         }
 
+        fun notLoggedIn(): AuthException {
+            return AuthException(
+                statusCode = 401,
+                error = "NOT_LOGGED_IN",
+                message = "로그인되지 않은 사용자입니다."
+            )
+        }
+
         fun invalidToken(): AuthException {
             return AuthException(
                 statusCode = 401,

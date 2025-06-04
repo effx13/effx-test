@@ -30,12 +30,12 @@ class EmailPasswordAuthenticationManager(
     }
 
     private suspend fun validate(authentication: Authentication): Authentication {
-        val phoneNumber = authentication.name.toString()
+        val email = authentication.name.toString()
         val rawPassword = authentication.credentials?.toString()
             ?: throw AuthException.memberNotMatch()
 
         val user = reactiveUserDetailsService.findByUsername(
-            phoneNumber
+            email
         ).awaitFirstOrNull() ?: throw AuthException.invalidToken()
 
         detailsChecker.check(user)

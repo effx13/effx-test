@@ -8,16 +8,19 @@ import one.effx.persistence.member.entity.MemberEntity
 import one.effx.persistence.member.repository.MemberCrudRepository
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class MemberAdapter(
     publisher: ApplicationEventPublisher,
     private val memberCrudRepository: MemberCrudRepository,
 ) : EventAggregateRepository<Member, Long, MemberEvent>(publisher), MemberRepository {
+    @Transactional(readOnly = true)
     override suspend fun findByEmail(email: String) = memberCrudRepository
         .findByEmail(email)
         ?.let { MemberEntity.toDomain(it) }
 
+    @Transactional
     override suspend fun doSave(aggregate: Member): Member =
         aggregate.apply {
             val saved = memberCrudRepository.findById(aggregate.id)?.let { entity ->
@@ -33,12 +36,12 @@ class MemberAdapter(
             this.id = saved.id // 요청된 Aggregate의 ID를 저장된 Aggregate의 ID로 업데이트(이벤트 보존을 위해)
         }
 
-
+    @Transactional(readOnly = true)
     override suspend fun findById(id: Long): Member =
         memberCrudRepository.findById(id)?.let { MemberEntity.toDomain(it) }
             ?: throw IllegalArgumentException("Member with id $id not found")
 
-
+    @Transactional(readOnly = true)
     override suspend fun existsByEmail(email: String): Boolean {
         return memberCrudRepository.existsByEmail(email)
     }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 data class Member(
     @JsonIgnore
-    override val id: Long,
+    override var id: Long,
     val name: String,
     val email: String,
     @JsonIgnore
@@ -20,7 +20,6 @@ data class Member(
     @JsonIgnore
     val deletedAt: LocalDateTime? = null
 ): AggregateRoot<MemberEvent, Long>() {
-
     companion object {
         fun create(
             id: Long,

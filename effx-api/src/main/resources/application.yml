@@ -1,0 +1,55 @@
+spring:
+  profiles:
+    include:
+      - db
+  data:
+    web:
+      pageable:
+        default-page-size: 20
+        max-page-size: 100
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 1024
+  shutdown: graceful
+
+# actuator
+management:
+  server:
+    port:
+  endpoints:
+    web.exposure.include: prometheus, health, metrics
+    access:
+      default: none
+  health:
+    redis:
+      enabled: false
+  endpoint:
+    health:
+      access: read_only
+    info:
+      access: read_only
+    metrics:
+      access: read_only
+    prometheus:
+      access: read_only
+
+
+springdoc:
+  swagger-ui:
+    display-operation-id: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+management:
+  endpoints:
+    access:
+      default: unrestricted

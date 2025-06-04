@@ -1,0 +1,42 @@
+spring:
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties: # https://github.com/hibernate/hibernate-orm/blob/main/etc/hibernate.properties
+      hibernate.jdbc.lob.non_contextual_creation: true
+      hibernate.jdbc.time_zone: Asia/Seoul
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 1000
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+      multiline: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  r2dbc:
+    username: sa
+    password:
+    url: r2dbc:h2:mem:///local;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+  sql:
+    init:
+      mode: always
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      multiline: true
+
+logging:
+  level:
+    org.springframework.r2dbc.core: DEBUG
